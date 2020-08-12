@@ -4,7 +4,7 @@ import pyaudio
 import config
 
 def isstarted():
-    return 'stream' in globals() or not stream == None
+    return 'stream' in globals() and not stream == None
 
 def start_stream(callback):
     global stream
