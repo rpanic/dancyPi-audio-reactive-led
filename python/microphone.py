@@ -9,9 +9,10 @@ def isstarted():
 def stopStream():
     stream.stop_stream()
     stream.close()
+    pya.terminate()
 
 def start_stream(callback):
-    global stream
+    global stream, pya
     pya = pyaudio.PyAudio()
     frames_per_buffer = int(config.MIC_RATE / config.FPS)
     print("Using default input device: {:s}".format(pya.get_default_input_device_info()['name']))
