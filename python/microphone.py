@@ -3,6 +3,9 @@ import numpy as np
 import pyaudio
 import config
 
+def isstarted():
+    return 'stream' in globals() or not stream == None
+
 def start_stream(callback):
     global stream
     pya = pyaudio.PyAudio()

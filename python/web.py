@@ -8,7 +8,7 @@ app = Flask(__name__)
 def start(effect):
     print("Starting " + effect)
     setEffect(effect)
-    if('stream' not in globals() or stream == None):
+    if(not isstarted()):
         print("First one, starting audio")
         visualization_start()
 
