@@ -25,16 +25,16 @@ def start_stream(callback):
     prev_ovf_time = time.time()
     while True:
         try:
+            if(stream.is_stopped()):
+                break
             y = np.fromstring(stream.read(frames_per_buffer, exception_on_overflow=False), dtype=np.int16)
             y = y.astype(np.float32)
             stream.read(stream.get_read_available(), exception_on_overflow=False)
             callback(y)
         except IOError:
+            if(stream.is_stopped()):
+                break
             overflows += 1
             if time.time() > prev_ovf_time + 1:
                 prev_ovf_time = time.time()
                 print('Audio buffer has overflowed {} times'.format(overflows))
-    stream.stop_stream()
-    stream.close()
-    stream = None
-    p.terminate()
