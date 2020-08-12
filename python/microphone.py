@@ -6,6 +6,10 @@ import config
 def isstarted():
     return 'stream' in globals() and not stream == None
 
+def stopStream():
+    stream.stop_stream()
+    stream.close()
+
 def start_stream(callback):
     global stream
     pya = pyaudio.PyAudio()

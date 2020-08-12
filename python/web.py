@@ -17,9 +17,7 @@ def start(effect):
 @app.route('/stop')
 def stop():
     print("Stopping audio")
-    stream.stop_stream()
-    stream.close()
-
+    stopStream()
     return "True"
 
 if __name__ == '__main__':
