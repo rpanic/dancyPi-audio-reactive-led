@@ -3,12 +3,12 @@ import numpy as np
 import pyaudio
 import config
 
-
 def start_stream(callback):
-    p = pyaudio.PyAudio()
+    global stream
+    pya = pyaudio.PyAudio()
     frames_per_buffer = int(config.MIC_RATE / config.FPS)
-    print("Using default input device: {:s}".format(p.get_default_input_device_info()['name']))
-    stream = p.open(format=pyaudio.paInt16,
+    print("Using default input device: {:s}".format(pya.get_default_input_device_info()['name']))
+    stream = pya.open(format=pyaudio.paInt16,
                     channels=1,
                     rate=config.MIC_RATE,
                     input=True,
@@ -28,4 +28,5 @@ def start_stream(callback):
                 print('Audio buffer has overflowed {} times'.format(overflows))
     stream.stop_stream()
     stream.close()
+    stream = None
     p.terminate()

@@ -279,24 +279,35 @@ samples_per_frame = int(config.MIC_RATE / config.FPS)
 # Array containing the rolling audio sample window
 y_roll = np.random.rand(config.N_ROLLING_HISTORY, samples_per_frame) / 1e16
 
-if sys.argv[1] == "spectrum":
-        visualization_type = visualize_spectrum
-elif sys.argv[1] == "energy":
-        visualization_type = visualize_energy
-elif sys.argv[1] == "scroll":
-        visualization_type = visualize_scroll
-        flow_size = int(config.N_PIXELS / 7 * 5)
-        base_size = config.N_PIXELS - flow_size
-        p = np.tile(1.0, (3, flow_size))
-else:
-        visualization_type = visualize_spectrum
-
-visualization_effect = visualization_type
-"""Visualization effect to display on the LED strip"""
+setEffect(sys.argv[1])
 
 
-if __name__ == '__main__':
+def setEffect(effect):
+
+    if effect == "spectrum":
+            visualization_type = visualize_spectrum
+    elif effect == "energy":
+            visualization_type = visualize_energy
+    elif effect == "scroll":
+            visualization_type = visualize_scroll
+
+            flow_size = int(config.N_PIXELS / 7 * 5)
+            base_size = config.N_PIXELS - flow_size
+            p = np.tile(1.0, (3, flow_size))
+
+    elif effect == "scrollclassic":
+            visualization_type = visualize_scroll_classic
+    else:
+            visualization_type = visualize_spectrum
+
+    visualization_effect = visualization_type
+    """Visualization effect to display on the LED strip"""
+
+def visualization_start():
     # Initialize LEDs
     led.update()
     # Start listening to live audio stream
     microphone.start_stream(microphone_update)
+
+if __name__ == '__main__':
+    visualization_start()
