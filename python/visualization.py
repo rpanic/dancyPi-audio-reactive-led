@@ -8,6 +8,7 @@ import microphone
 import dsp
 import led
 import sys
+import threading
 
 _time_prev = time.time() * 1000.0
 """The previous time that the frames_per_second() function was called"""
@@ -305,9 +306,10 @@ def visualization_start():
     # Initialize LEDs
     led.update()
     # Start listening to live audio stream
+
     microphone.start_stream(microphone_update)
 
 if __name__ == '__main__':
     setEffect(sys.argv[1])
 
-    visualization_start()
+    threading.Timer(0.001, visualization_start)

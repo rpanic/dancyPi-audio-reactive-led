@@ -12,11 +12,15 @@ def start(effect):
         print("First one, starting audio")
         visualization_start()
 
+    return "True"
+
 @app.route('/stop')
 def stop():
     print("Stopping audio")
     stream.stop_stream()
     stream.close()
+
+    return "True"
 
 if __name__ == '__main__':
     app.run()
