@@ -9,8 +9,6 @@ import dsp
 import led
 import sys
 
-visualization_type = sys.argv[1]
-
 _time_prev = time.time() * 1000.0
 """The previous time that the frames_per_second() function was called"""
 
