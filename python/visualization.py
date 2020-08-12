@@ -108,6 +108,7 @@ gain = dsp.ExpFilter(np.tile(0.01, config.N_FFT_BINS),
 def visualize_scroll(y):
     """Effect that originates in the center and scrolls outwards"""
     global p
+#    print(p)
     y = y**2.0
     gain.update(y)
     y /= gain.value
@@ -117,14 +118,20 @@ def visualize_scroll(y):
     b = int(np.max(y[2 * len(y) // 3:]))
     # Scrolling effect window
     p[:, 1:] = p[:, :-1]
+    p[:, 1:] = p[:, :-1]
     p *= 0.98
     p = gaussian_filter1d(p, sigma=0.2)
     # Create new color originating at the center
-    p[0, 0] = r
-    p[1, 0] = g
-    p[2, 0] = b
+    p[0, 0:1] = r
+    p[1, 0:1] = g
+    p[2, 0:1] = b
     # Update the LED strip
-    return np.concatenate((p[:, ::-1], p), axis=1)
+    #return p
+    base_arr = np.tile(1.0, (3, base_size))
+    base_arr[0, :] = r
+    base_arr[1, :] = g
+    base_arr[2, :] = b
+    return np.concatenate((base_arr, p), axis=1)
 
 
 def visualize_energy(y):
@@ -257,6 +264,9 @@ elif sys.argv[1] == "energy":
         visualization_type = visualize_energy
 elif sys.argv[1] == "scroll":
         visualization_type = visualize_scroll
+        flow_size = int(config.N_PIXELS / 7 * 5)
+        base_size = config.N_PIXELS - flow_size
+        p = np.tile(1.0, (3, flow_size))
 else:
         visualization_type = visualize_spectrum
 

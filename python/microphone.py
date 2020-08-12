@@ -7,6 +7,7 @@ import config
 def start_stream(callback):
     p = pyaudio.PyAudio()
     frames_per_buffer = int(config.MIC_RATE / config.FPS)
+    print("Using default input device: {:s}".format(p.get_default_input_device_info()['name']))
     stream = p.open(format=pyaudio.paInt16,
                     channels=1,
                     rate=config.MIC_RATE,
