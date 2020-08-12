@@ -282,6 +282,8 @@ y_roll = np.random.rand(config.N_ROLLING_HISTORY, samples_per_frame) / 1e16
 
 def setEffect(effect):
 
+    global visualization_effect, base_size
+
     if effect == "spectrum":
             visualization_type = visualize_spectrum
     elif effect == "energy":
@@ -301,8 +303,6 @@ def setEffect(effect):
     visualization_effect = visualization_type
     """Visualization effect to display on the LED strip"""
 
-setEffect(sys.argv[1])
-
 def visualization_start():
     # Initialize LEDs
     led.update()
@@ -310,4 +310,6 @@ def visualization_start():
     microphone.start_stream(microphone_update)
 
 if __name__ == '__main__':
+    setEffect(sys.argv[1])
+
     visualization_start()

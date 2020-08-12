@@ -6,9 +6,9 @@ app = Flask(__name__)
 
 @app.route('/start/<effect>')
 def start(effect):
-    if(stream == None):
-        visualization_start()
     setEffect(effect)
+    if('stream' not in globals() or stream == None):
+        visualization_start()
 
 @app.route('/stop')
 def stop():
