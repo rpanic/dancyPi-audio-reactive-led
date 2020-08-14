@@ -13,14 +13,16 @@ def stopStream():
 
 def start_stream(callback):
     global stream, pya, streamstopped
-    pya = pyaudio.PyAudio()
-    frames_per_buffer = int(config.MIC_RATE / config.FPS)
-    print("Using default input device: {:s}".format(pya.get_default_input_device_info()['name']))
-    stream = pya.open(format=pyaudio.paInt16,
-                    channels=1,
-                    rate=config.MIC_RATE,
-                    input=True,
-                    frames_per_buffer=frames_per_buffer)
+    if 'streamstopped' not in globals():
+        pya = pyaudio.PyAudio()
+        frames_per_buffer = int(config.MIC_RATE / config.FPS)
+        print("Using default input device: {:s}".format(pya.get_default_input_device_info()['name']))
+        stream = pya.open(format=pyaudio.paInt16,
+                        channels=1,
+                        rate=config.MIC_RATE,
+                        input=True,
+                        frames_per_buffer=frames_per_buffer)
+    stream.start_stream()
     streamstopped = False
     overflows = 0
     prev_ovf_time = time.time()
@@ -37,5 +39,5 @@ def start_stream(callback):
                 print('Audio buffer has overflowed {} times'.format(overflows))
     
     stream.stop_stream()
-    stream.close()
-    pya.terminate()
+    #stream.close()
+    #pya.terminate()
