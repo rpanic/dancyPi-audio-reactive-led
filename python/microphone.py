@@ -2,6 +2,7 @@ import time
 import numpy as np
 import pyaudio
 import config
+from led import black_led
 
 def isstarted():
     global streamstopped
@@ -41,3 +42,5 @@ def start_stream(callback):
     stream.stop_stream()
     #stream.close()
     #pya.terminate()
+
+    black_led()

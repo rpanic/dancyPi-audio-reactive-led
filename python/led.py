@@ -136,6 +136,10 @@ def _update_blinkstick():
     stick.set_led_data(0, newstrip)
 
 
+def black_led():
+    pixels = np.tile(0, (3, config.N_PIXELS))
+    update()
+
 def update():
     """Updates the LED strip values"""
     if config.DEVICE == 'esp8266':
