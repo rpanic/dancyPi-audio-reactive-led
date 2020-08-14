@@ -10,7 +10,7 @@ def start(effect):
     setEffect(effect)
     if(not isstarted()):
         print("First one, starting audio")
-        visualization_start()
+        threading.Timer(0.001, visualization_start).start()
 
     return "True"
 

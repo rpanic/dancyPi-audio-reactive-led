@@ -306,10 +306,9 @@ def visualization_start():
     # Initialize LEDs
     led.update()
     # Start listening to live audio stream
-
     microphone.start_stream(microphone_update)
 
 if __name__ == '__main__':
     setEffect(sys.argv[1])
 
-    threading.Timer(0.001, visualization_start)
+    visualization_start()

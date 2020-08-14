@@ -6,13 +6,16 @@ import config
 def isstarted():
     return 'stream' in globals() and not stream == None
 
+streamstopped = False
+
 def stopStream():
     stream.stop_stream()
     stream.close()
     pya.terminate()
+    streamstopped = True
 
 def start_stream(callback):
-    global stream, pya
+    global stream, pya, streamstopped
     pya = pyaudio.PyAudio()
     frames_per_buffer = int(config.MIC_RATE / config.FPS)
     print("Using default input device: {:s}".format(pya.get_default_input_device_info()['name']))
@@ -21,12 +24,11 @@ def start_stream(callback):
                     rate=config.MIC_RATE,
                     input=True,
                     frames_per_buffer=frames_per_buffer)
+    streamstopped = False
     overflows = 0
     prev_ovf_time = time.time()
-    while stream.is_active():
+    while not streamstopped:
         try:
-            if(stream.is_stopped()):
-                break
             y = np.fromstring(stream.read(frames_per_buffer, exception_on_overflow=False), dtype=np.int16)
             y = y.astype(np.float32)
             stream.read(stream.get_read_available(), exception_on_overflow=False)
