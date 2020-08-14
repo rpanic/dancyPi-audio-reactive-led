@@ -9,13 +9,10 @@ def isstarted():
 streamstopped = False
 
 def stopStream():
-    stream.stop_stream()
-    stream.close()
-    pya.terminate()
     streamstopped = True
 
 def start_stream(callback):
-    global stream, pya, streamstopped
+    global stream, pya
     pya = pyaudio.PyAudio()
     frames_per_buffer = int(config.MIC_RATE / config.FPS)
     print("Using default input device: {:s}".format(pya.get_default_input_device_info()['name']))
@@ -38,3 +35,7 @@ def start_stream(callback):
             if time.time() > prev_ovf_time + 1:
                 prev_ovf_time = time.time()
                 print('Audio buffer has overflowed {} times'.format(overflows))
+    
+    stream.stop_stream()
+    stream.close()
+    pya.terminate()
