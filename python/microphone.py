@@ -23,7 +23,7 @@ def start_stream(callback):
                     frames_per_buffer=frames_per_buffer)
     overflows = 0
     prev_ovf_time = time.time()
-    while True:
+    while stream.is_active():
         try:
             if(stream.is_stopped()):
                 break
@@ -32,8 +32,6 @@ def start_stream(callback):
             stream.read(stream.get_read_available(), exception_on_overflow=False)
             callback(y)
         except IOError:
-            if(stream.is_stopped()):
-                break
             overflows += 1
             if time.time() > prev_ovf_time + 1:
                 prev_ovf_time = time.time()
