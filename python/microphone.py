@@ -4,7 +4,7 @@ import pyaudio
 import config
 
 def isstarted():
-    return 'stream' in globals() and not stream == None
+    return not streamstopped
 
 def stopStream():
     global streamstopped
