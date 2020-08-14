@@ -1,6 +1,9 @@
 from flask import Flask
 from visualization import *
 from microphone import *
+import led
+import numpy as np
+import config
 
 app = Flask(__name__)
 
@@ -18,6 +21,8 @@ def start(effect):
 def stop():
     print("Stopping audio")
     stopStream()
+    led.pixels = np.tile(0, (3, config.N_PIXELS))
+    led.update()
     return "True"
 
 if __name__ == '__main__':
