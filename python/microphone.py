@@ -13,9 +13,9 @@ def stopStream():
 
 def start_stream(callback):
     global stream, pya, streamstopped
+    frames_per_buffer = int(config.MIC_RATE / config.FPS)
     if 'streamstopped' not in globals():
         pya = pyaudio.PyAudio()
-        frames_per_buffer = int(config.MIC_RATE / config.FPS)
         print("Using default input device: {:s}".format(pya.get_default_input_device_info()['name']))
         stream = pya.open(format=pyaudio.paInt16,
                         channels=1,
