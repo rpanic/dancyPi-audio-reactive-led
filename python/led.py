@@ -137,8 +137,11 @@ def _update_blinkstick():
 
 
 def black_led():
-    pixels = np.tile(0, (3, config.N_PIXELS))
+    global pixels
+    print("Shutting down leds..")
+    pixels = np.tile(1, (3, config.N_PIXELS))
     update()
+    print("Leds shut down")
 
 def update():
     """Updates the LED strip values"""

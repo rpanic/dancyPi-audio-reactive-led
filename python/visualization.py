@@ -281,7 +281,7 @@ y_roll = np.random.rand(config.N_ROLLING_HISTORY, samples_per_frame) / 1e16
 
 def setEffect(effect):
 
-    global visualization_effect, base_size
+    global visualization_effect, base_size, p
 
     if effect == "spectrum":
             visualization_type = visualize_spectrum
