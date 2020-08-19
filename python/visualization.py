@@ -314,6 +314,6 @@ def shutdown():
 if __name__ == '__main__':
     setEffect(sys.argv[1])
 
-    threading.Timer(5, shutdown)
+    threading.Timer(5, shutdown).start()
 
     visualization_start()
