@@ -44,3 +44,10 @@ def start_stream(callback):
     #pya.terminate()
 
     black_led()
+
+def shutdown_mic():
+    global stream, pya
+    stopStream()
+    time.sleep(3)
+    stream.close()
+    pya.terminate()

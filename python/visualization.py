@@ -308,7 +308,12 @@ def visualization_start():
     # Start listening to live audio stream
     microphone.start_stream(microphone_update)
 
+def shutdown():
+    shutdown_mic()
+
 if __name__ == '__main__':
     setEffect(sys.argv[1])
+
+    threading.Timer(5, shutdown)
 
     visualization_start()
