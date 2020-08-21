@@ -172,7 +172,7 @@ def visualize_scroll_2(y):
     p *= 0.98
     p = gaussian_filter1d(p, sigma=0.2)
     # Create new color originating at the center
-    until = scrollspeed - 1
+    until = scroll_speed - 1
     p[0, 0:until] = r
     p[1, 0:until] = g
     p[2, 0:until] = b
