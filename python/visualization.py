@@ -165,8 +165,9 @@ def visualize_scroll_2(y):
     g = int(np.max(y[len(y) // 3: 2 * len(y) // 3]))
     b = int(np.max(y[2 * len(y) // 3:]))
     # Scrolling effect window
-    for i in range(scrollspeed):
-        p[:, 1:] = p[:, :-1]
+    #for i in range(scroll_speed):
+    #    p[:, 1:] = p[:, :-1]
+    p[:, scroll_speed] = p[:, :-scroll_speed]
     
     p *= 0.98
     p = gaussian_filter1d(p, sigma=0.2)
