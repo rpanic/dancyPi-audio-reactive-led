@@ -167,15 +167,14 @@ def visualize_scroll_2(y):
     # Scrolling effect window
     #for i in range(scroll_speed):
     #    p[:, 1:] = p[:, :-1]
-    p[:, scroll_speed] = p[:, :-scroll_speed]
+    p[:, scroll_speed:] = p[:, :-scroll_speed]
     
     p *= 0.98
     p = gaussian_filter1d(p, sigma=0.2)
     # Create new color originating at the center
-    until = scroll_speed - 1
-    p[0, 0:until] = r
-    p[1, 0:until] = g
-    p[2, 0:until] = b
+    p[0, 0:scroll_speed] = r
+    p[1, 0:scroll_speed] = g
+    p[2, 0:scroll_speed] = b
     # Update the LED strip
     double = np.concatenate((p[:, ::-1], p), axis=1)
     if scroll_top > 0:
