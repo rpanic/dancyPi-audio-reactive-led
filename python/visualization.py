@@ -156,7 +156,7 @@ def visualize_scroll_classic(y):
 
 def visualize_scroll_2(y):
     """Effect that originates in the center and scrolls outwards"""
-    global p
+    global p, scroll_top
     y = y**2.0
     gain.update(y)
     y /= gain.value
@@ -182,6 +182,8 @@ def visualize_scroll_2(y):
     elif scroll_top < 0:
         start = double.shape[1] - config.N_PIXELS
         return double[:, start:]
+    else:
+        return double
 
 def visualize_energy(y):
     """Effect that expands from the center with increasing sound energy"""
@@ -308,11 +310,9 @@ samples_per_frame = int(config.MIC_RATE / config.FPS)
 # Array containing the rolling audio sample window
 y_roll = np.random.rand(config.N_ROLLING_HISTORY, samples_per_frame) / 1e16
 
-scroll_top = 0
-
 def setEffect(effect, top = 0):
 
-    global visualization_effect, base_size, p
+    global visualization_effect, base_size, p, scroll_top
 
     if effect == "spectrum":
             visualization_type = visualize_spectrum
