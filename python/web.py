@@ -14,6 +14,16 @@ def start(effect):
 
     return "True"
 
+@app.route('/startScroll/<effect>/<top>')
+def start(effect, top):
+    print("Starting " + effect)
+    setEffect(effect, top)
+    if(not isstarted()):
+        print("First one, starting audio")
+        threading.Timer(0.001, visualization_start).start()
+
+    return "True"
+
 @app.route('/stop')
 def stop():
     print("Stopping audio")

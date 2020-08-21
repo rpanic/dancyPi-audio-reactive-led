@@ -154,6 +154,34 @@ def visualize_scroll_classic(y):
     # Update the LED strip
     return np.concatenate((p[:, ::-1], p), axis=1)
 
+def visualize_scroll_2(y):
+    """Effect that originates in the center and scrolls outwards"""
+    global p
+    y = y**2.0
+    gain.update(y)
+    y /= gain.value
+    y *= 255.0
+    r = int(np.max(y[:len(y) // 3]))
+    g = int(np.max(y[len(y) // 3: 2 * len(y) // 3]))
+    b = int(np.max(y[2 * len(y) // 3:]))
+    # Scrolling effect window
+    p[:, 1:] = p[:, :-1]
+    p *= 0.98
+    print(p.size)
+    p = gaussian_filter1d(p, sigma=0.2)
+    # Create new color originating at the center
+    p[0, 0] = r
+    p[1, 0] = g
+    p[2, 0] = b
+    # Update the LED strip
+    double = np.concatenate((p[:, ::-1], p), axis=1)
+    if scroll_top > 0:
+        return double[:, 0:config.N_PIXELS]
+    else if scroll_top < 0:
+        start = p.shape[1] - config.N_PIXELS
+        return double[:, start:]
+    return 
+
 def visualize_energy(y):
     """Effect that expands from the center with increasing sound energy"""
     global p
@@ -278,8 +306,9 @@ samples_per_frame = int(config.MIC_RATE / config.FPS)
 # Array containing the rolling audio sample window
 y_roll = np.random.rand(config.N_ROLLING_HISTORY, samples_per_frame) / 1e16
 
+scroll_top = 0
 
-def setEffect(effect):
+def setEffect(effect, top = 0):
 
     global visualization_effect, base_size, p
 
@@ -296,6 +325,15 @@ def setEffect(effect):
 
     elif effect == "scrollclassic":
             visualization_type = visualize_scroll_classic
+    elif effect == "scroll2":
+
+            half_size = config.N_PIXELS // 2
+            half_size = half_size + abs(top)
+            p = np.tile(1.0, (3, half_size))
+
+            scroll_top = top
+
+            visualization_type = visualize_scroll_2
     else:
             visualization_type = visualize_spectrum
 
