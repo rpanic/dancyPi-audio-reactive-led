@@ -177,7 +177,7 @@ def visualize_scroll_2(y):
     double = np.concatenate((p[:, ::-1], p), axis=1)
     if scroll_top > 0:
         return double[:, 0:config.N_PIXELS]
-    else if scroll_top < 0:
+    elif scroll_top < 0:
         start = p.shape[1] - config.N_PIXELS
         return double[:, start:]
     return 
