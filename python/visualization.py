@@ -167,7 +167,6 @@ def visualize_scroll_2(y):
     # Scrolling effect window
     p[:, 1:] = p[:, :-1]
     p *= 0.98
-    print(p.size)
     p = gaussian_filter1d(p, sigma=0.2)
     # Create new color originating at the center
     p[0, 0] = r
@@ -177,10 +176,9 @@ def visualize_scroll_2(y):
     double = np.concatenate((p[:, ::-1], p), axis=1)
     if scroll_top > 0:
         return double[:, 0:config.N_PIXELS]
-    elif scroll_top < 0:
-        start = p.shape[1] - config.N_PIXELS
+    else if scroll_top < 0:
+        start = double.shape[1] - config.N_PIXELS
         return double[:, start:]
-    return 
 
 def visualize_energy(y):
     """Effect that expands from the center with increasing sound energy"""
@@ -280,6 +278,7 @@ def microphone_update(audio_samples):
         mel = mel_smoothing.update(mel)
         # Map filterbank output onto LED strip
         output = visualization_effect(mel)
+        print(output)
         led.pixels = output
         led.update()
         if config.USE_GUI:
