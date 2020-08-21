@@ -156,7 +156,7 @@ def visualize_scroll_classic(y):
 
 def visualize_scroll_2(y):
     """Effect that originates in the center and scrolls outwards"""
-    global p, scroll_top
+    global p, scroll_top, scroll_speed
     y = y**2.0
     gain.update(y)
     y /= gain.value
@@ -165,13 +165,16 @@ def visualize_scroll_2(y):
     g = int(np.max(y[len(y) // 3: 2 * len(y) // 3]))
     b = int(np.max(y[2 * len(y) // 3:]))
     # Scrolling effect window
-    p[:, 1:] = p[:, :-1]
+    for i in range(scrollspeed)
+        p[:, 1:] = p[:, :-1]
+    
     p *= 0.98
     p = gaussian_filter1d(p, sigma=0.2)
     # Create new color originating at the center
-    p[0, 0] = r
-    p[1, 0] = g
-    p[2, 0] = b
+    until = scrollspeed - 1
+    p[0, 0:until] = r
+    p[1, 0:until] = g
+    p[2, 0:until] = b
     # Update the LED strip
     double = np.concatenate((p[:, ::-1], p), axis=1)
     if scroll_top > 0:
@@ -306,9 +309,9 @@ samples_per_frame = int(config.MIC_RATE / config.FPS)
 # Array containing the rolling audio sample window
 y_roll = np.random.rand(config.N_ROLLING_HISTORY, samples_per_frame) / 1e16
 
-def setEffect(effect, top = 0):
+def setEffect(effect, top = 0, scrollspeed = 1):
 
-    global visualization_effect, base_size, p, scroll_top
+    global visualization_effect, base_size, p, scroll_top, scroll_speed
 
     if effect == "spectrum":
             visualization_type = visualize_spectrum
@@ -330,6 +333,7 @@ def setEffect(effect, top = 0):
             p = np.tile(1.0, (3, half_size))
 
             scroll_top = top
+            scroll_speed = scrollspeed
 
             visualization_type = visualize_scroll_2
     else:
