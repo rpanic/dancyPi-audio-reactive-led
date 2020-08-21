@@ -174,9 +174,12 @@ def visualize_scroll_2(y):
     p[2, 0] = b
     # Update the LED strip
     double = np.concatenate((p[:, ::-1], p), axis=1)
+    print("scroll: " + str(scroll_top))
     if scroll_top > 0:
+        print("arr")
+        print(double[:, 0:config.N_PIXELS])
         return double[:, 0:config.N_PIXELS]
-    else if scroll_top < 0:
+    elif scroll_top < 0:
         start = double.shape[1] - config.N_PIXELS
         return double[:, start:]
 
